@@ -3,22 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Clock with Shadow</title>
+  <title>Digital Clock with Shock Effect</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Custom CSS for shadow effect */
+    /* Custom CSS for blue shadow */
     .text-shadow-blue {
-      text-shadow: 0 0 10px rgba(0, 191, 255, 0.8),  /* Blue glow */
-                   0 0 20px rgba(0, 191, 255, 0.6),
-                   0 0 30px rgba(0, 191, 255, 0.4);
+      text-shadow: 0 0 15px rgba(0, 191, 255, 0.9),  
+                   0 0 30px rgba(0, 191, 255, 0.6),
+                   0 0 45px rgba(0, 191, 255, 0.4);
+    }
+
+    /* Shock (shake) animation */
+    @keyframes shock {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-10px); }
+      40%, 80% { transform: translateX(10px); }
+    }
+
+    .shock-effect {
+      animation: shock 0.4s ease;  /* Duration and easing */
     }
   </style>
 </head>
 <body class="flex items-center justify-center h-screen bg-gray-900">
   <div class="text-center text-white">
-    <div id="date" class="text-6xl font-light mb-4 text-shadow-blue"></div>
-    <div id="time" class="text-9xl font-mono tracking-wider text-shadow-blue"></div>
+    <div id="date" class="text-4xl font-light mb-6 text-shadow-blue"></div>
+    <div id="time" class="text-8xl font-mono tracking-widest text-shadow-blue"></div>
   </div>
 
   <script>
@@ -37,7 +48,17 @@
       const hours = String(now.getHours()).padStart(2, '0');
       const minutes = String(now.getMinutes()).padStart(2, '0');
       const seconds = String(now.getSeconds()).padStart(2, '0');
-      document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+      const timeElement = document.getElementById('time');
+      timeElement.innerText = `${hours}:${minutes}:${seconds}`;
+
+      // Trigger shock effect at specific times (14:00, 15:00, etc.)
+      if (minutes === "00" && seconds === "00") {
+        timeElement.classList.add('shock-effect');
+        // Remove the class after animation completes
+        setTimeout(() => {
+          timeElement.classList.remove('shock-effect');
+        }, 400);  // Match animation duration
+      }
     }
 
     // Update the clock every second
