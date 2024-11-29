@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock with Shadow</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom CSS for shadow effect */
+    .text-shadow-blue {
+      text-shadow: 0 0 10px rgba(0, 191, 255, 0.8),  /* Blue glow */
+                   0 0 20px rgba(0, 191, 255, 0.6),
+                   0 0 30px rgba(0, 191, 255, 0.4);
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center h-screen bg-gray-900">
+  <div class="text-center text-white">
+    <div id="date" class="text-6xl font-light mb-4 text-shadow-blue"></div>
+    <div id="time" class="text-9xl font-mono tracking-wider text-shadow-blue"></div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      
+      // Format Date
+      const year = now.getFullYear();
+      const month = String(now.getMonth() + 1).padStart(2, '0');
+      const day = String(now.getDate()).padStart(2, '0');
+      const days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+      const weekday = days[now.getDay()];
+      document.getElementById('date').innerText = `${year}-${month}-${day} ${weekday}`;
+      
+      // Format Time
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      const seconds = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('time').innerText = `${hours}:${minutes}:${seconds}`;
+    }
+
+    // Update the clock every second
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call
+  </script>
+</body>
+</html>
